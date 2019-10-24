@@ -12,7 +12,7 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
 export const removeItemFromCart = (cartItems, cartItemToRemove) => {
     for (let i = 0; i < cartItems.length; i++) {
         if (cartItems[i].id === cartItemToRemove.id) {
-            if (cartItems[i].quantity == 1) {
+            if (cartItems[i].quantity === 1) {
                 return cartItems.filter(item => item.id !== cartItemToRemove.id);
             } else {
                 cartItems[i] = { ...cartItems[i], quantity: Number(cartItems[i].quantity) - 1 };
