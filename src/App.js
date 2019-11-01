@@ -10,12 +10,13 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import CheckoutPage from "./pages/checkoutpage/checkoutpage.component";
+import { selectCollectionsPreview } from "./redux/shop/shop.selector";
 
 class App extends React.Component {
     unsubscribeAuth = null;
 
-    componentDidMount() {
-        const { setCurrentUser } = this.props;
+    async componentDidMount() {
+        const { setCurrentUser, collectionArray } = this.props;
         this.unsubscribeAuth = auth.onAuthStateChanged(async userAuth => {
             if (userAuth) {
                 const userRef = await createUserProfileDocument(userAuth);
@@ -30,6 +31,14 @@ class App extends React.Component {
                 setCurrentUser(userAuth);
             }
         });
+
+        // addCollectionAndDocuments(
+        //     "collections",
+        //     collectionArray.map(({ title, items }) => ({
+        //         title,
+        //         items
+        //     }))
+        // );
     }
 
     render() {
@@ -61,7 +70,8 @@ const mapDispatchToProps = dispatch => ({
     setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 const mapStateToProps = state => ({
-    currentUser: selectCurrentUser(state)
+    currentUser: selectCurrentUser(state),
+    collectionArray: selectCollectionsPreview(state)
 });
 export default connect(
     mapStateToProps,
